@@ -1,0 +1,4 @@
+# local-only: tool config, scratch output
+.claude/
+reports/
+*.log
