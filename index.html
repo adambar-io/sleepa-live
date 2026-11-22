@@ -171,6 +171,144 @@
   .qt td:last-child{ font-weight: 700; }
   .qt tr + tr td{ border-top: 1px solid var(--hair); }
 
+  /* ============ card → game ============ */
+  .g{ cursor: pointer; transition: border-color .2s var(--ease), transform .2s var(--ease); }
+  .g:hover{ border-color: var(--surface-3); }
+  .g:focus-visible{ outline: 2px solid var(--accent); outline-offset: 2px; }
+  .g-more{ font-size: 12.5px; font-weight: 650; color: var(--accent); }
+  .g.pre .g-more{ color: var(--text-3); }
+
+  /* ============ game view ============ */
+  .game[hidden], #board[hidden]{ display: none; }
+  .gv-bar{ display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+  .back{ border: 1px solid var(--hair); background: var(--surface); border-radius: 999px; padding: 0 16px; min-height: 40px; font-weight: 650; cursor: pointer; }
+  .back:hover{ background: var(--surface-2); }
+  .gv-upd{ font-size: 12.5px; color: var(--text-3); margin-left: auto; text-align: right; }
+  .gv-upd.err{ color: var(--danger); }
+  .gv-hero{ background: var(--surface); border: 1px solid var(--hair); border-radius: var(--radius-lg); box-shadow: var(--shadow);
+    padding: 18px 20px; display: flex; flex-direction: column; gap: 12px; margin-bottom: 14px; }
+  .gv-hero .boot{ padding: 30px 0; }
+  .gh{ display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(96px, auto) auto minmax(0, 1fr); align-items: center; gap: 14px; }
+  .gh-tm{ display: flex; align-items: center; gap: 12px; min-width: 0; }
+  .gh-tm.h{ flex-direction: row-reverse; text-align: right; }
+  .gh-tm .lg{ width: 54px; height: 54px; object-fit: contain; flex: none; }
+  .gh-tm b{ font-size: 22px; letter-spacing: -0.02em; display: flex; align-items: center; gap: 6px; }
+  .gh-tm.h b{ justify-content: flex-end; }
+  .gh-tm small{ display: block; font-size: 12.5px; color: var(--text-3); }
+  .gh-tm .tos{ margin-top: 5px; }
+  .gh-tm.h .tos{ justify-content: flex-end; }
+  .gh-sc{ font-size: 46px; font-weight: 700; letter-spacing: -0.04em; line-height: 1; }
+  .gh-sc.l{ color: var(--text-3); }
+  .gh-mid{ display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 13.5px; font-weight: 650; color: var(--text-2); text-align: center; }
+  .gh.in .gh-mid .g-st{ color: var(--danger); }
+  .gh-mid small{ color: var(--text-3); font-weight: 500; font-size: 12px; }
+  .gv-hero .qt{ max-width: 420px; }
+  @media (max-width: 600px){
+    .gv-hero{ padding: 14px; }
+    .gh{ grid-template-columns: minmax(0, 1fr) auto auto auto minmax(0, 1fr); gap: 8px; }
+    .gh-tm, .gh-tm.h{ flex-direction: column; text-align: center; gap: 4px; }
+    .gh-tm .lg{ width: 38px; height: 38px; }
+    .gh-tm b, .gh-tm.h b{ font-size: 16px; justify-content: center; }
+    .gh-tm small{ display: none; }
+    .gh-tm .tos, .gh-tm.h .tos{ justify-content: center; }
+    .gh-sc{ font-size: 34px; }
+    .gh-mid{ font-size: 12px; }
+  }
+
+  .gv-tabs{ display: none; }
+  .gv-cols{ display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 14px; align-items: start; }
+  .gv-side{ display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+  @media (max-width: 999px){
+    .gv-cols{ grid-template-columns: minmax(0, 1fr); }
+    .gv-tabs{ display: flex; gap: 2px; padding: 3px; margin-bottom: 12px; background: var(--surface); border: 1px solid var(--hair); border-radius: 999px; }
+    .gv-tabs button{ flex: 1; min-height: 38px; border: 0; background: none; border-radius: 999px; font-weight: 650; font-size: 14px; color: var(--text-2); cursor: pointer; }
+    .gv-tabs button[aria-selected="true"]{ background: var(--text); color: var(--bg); }
+    .game:not(.tab-plays) [data-panel="plays"], .game:not(.tab-scoring) [data-panel="scoring"], .game:not(.tab-stats) [data-panel="stats"]{ display: none; }
+  }
+  .panel{ background: var(--surface); border: 1px solid var(--hair); border-radius: var(--radius-lg); box-shadow: var(--shadow); padding: 14px 16px; min-width: 0; }
+  .panel h3{ margin: 0 0 10px; font-size: 12.5px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--text-2); }
+  .panel h3.mt, .ph.mt{ margin-top: 22px; }
+  .panel h4{ margin: 14px 0 4px; font-size: 12px; font-weight: 700; color: var(--text-3); }
+  .ph{ display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 6px; }
+  .ph h3{ margin: 0; }
+  .ph .chips{ margin-left: auto; }
+  .chips{ display: flex; gap: 6px; }
+  .chip{ border: 1px solid var(--hair); background: var(--surface-2); border-radius: 999px; padding: 0 12px; min-height: 32px; font-size: 13px; font-weight: 600; color: var(--text-2); cursor: pointer; }
+  .chip.on{ background: var(--text); color: var(--bg); border-color: transparent; }
+  .empty-s{ color: var(--text-3); font-size: 13.5px; margin: 8px 0; }
+
+  /* drives + plays */
+  details.dv{ border-top: 1px solid var(--hair); }
+  details.dv:first-child{ border-top: 0; }
+  .dv summary{ display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; align-items: center; gap: 10px; padding: 10px 0; cursor: pointer; list-style: none; }
+  .dv summary::-webkit-details-marker{ display: none; }
+  .dv summary img{ width: 28px; height: 28px; object-fit: contain; }
+  .dv-t b{ font-size: 14.5px; }
+  .dv-t small{ display: block; font-size: 12px; color: var(--text-3); }
+  .res{ display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; letter-spacing: .05em; border-radius: 6px; padding: 3px 7px; background: var(--surface-2); color: var(--text-2); white-space: nowrap; }
+  .res.good{ background: var(--accent-soft); color: var(--accent); }
+  .res.bad, .res.on{ background: var(--danger-soft); color: var(--danger); }
+  .res.warn{ background: var(--warn-soft); color: var(--warn); }
+  .res .pulse{ width: 6px; height: 6px; border-radius: 50%; background: var(--danger); animation: pulse 1.6s infinite; }
+  ol.pls{ list-style: none; margin: 0 0 10px; padding: 0; }
+  .pl{ display: grid; grid-template-columns: 54px minmax(0, 1fr) auto; gap: 10px; padding: 9px 6px; border-top: 1px dashed var(--hair); font-size: 13.5px; border-radius: 8px; }
+  .pl-t{ font-size: 11.5px; color: var(--text-3); font-variant-numeric: tabular-nums; padding-top: 2px; }
+  .pl-t b{ display: block; color: var(--text-2); font-weight: 650; }
+  .pl-dd{ font-size: 11.5px; font-weight: 650; color: var(--text-2); }
+  .pl p{ margin: 1px 0 0; line-height: 1.45; overflow-wrap: anywhere; }
+  .pl-y{ font-size: 12.5px; font-weight: 700; color: var(--text-2); padding-top: 2px; }
+  .pl-y.big{ color: var(--accent); }
+  .pl-y.neg{ color: var(--danger); }
+  .pl.meta{ font-size: 12px; color: var(--text-3); padding-top: 5px; padding-bottom: 5px; }
+  .pl.meta p{ font-style: italic; }
+  .pl.score{ background: var(--accent-soft); border-top-color: transparent; }
+  .tag{ font-size: 10.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; margin-right: 6px; }
+  .tag.good{ color: var(--accent); } .tag.bad{ color: var(--danger); } .tag.warn{ color: var(--warn); }
+  .sc-after{ display: inline-block; margin-top: 4px; font-size: 12px; font-weight: 700; color: var(--accent); }
+  .pl.new{ animation: slidein .6s var(--ease), plnew 3s var(--ease); }
+  @keyframes slidein{ from{ opacity: 0; transform: translateY(-8px); } to{ opacity: 1; transform: none; } }
+  @keyframes plnew{ 0%, 30%{ box-shadow: inset 3px 0 0 var(--accent); background: var(--accent-soft); } 100%{ box-shadow: inset 3px 0 0 transparent; } }
+
+  /* win probability chart */
+  .wpc{ position: relative; touch-action: pan-y; }
+  .wpc-now{ font-size: 13.5px; font-weight: 650; margin-bottom: 6px; }
+  .wpc svg{ display: block; width: 100%; height: auto; overflow: visible; }
+  .wpc .gl{ stroke: var(--hair); stroke-width: 1; }
+  .wpc .gl.mid{ stroke: var(--text-3); stroke-dasharray: 3 4; opacity: .6; }
+  .wpc .wl{ fill: none; stroke: var(--text); stroke-width: 2; stroke-linejoin: round; }
+  .wpc .sd{ fill: var(--surface); stroke: var(--text); stroke-width: 1.5; }
+  .wpc .ld-dot{ fill: var(--danger); stroke: var(--surface); stroke-width: 2; }
+  .wpc .cur{ stroke: var(--text-2); stroke-width: 1; }
+  .wpc-plot{ position: relative; }
+  .wpc-tm{ position: absolute; left: 6px; font-size: 11px; font-weight: 700; color: var(--text-2); pointer-events: none; }
+  .wpc-tm.t{ top: 2px; } .wpc-tm.b{ bottom: 6px; }
+  .wpc-q{ position: relative; height: 16px; font-size: 11px; color: var(--text-3); }
+  .wpc-q span{ position: absolute; transform: translateX(-50%); top: 2px; }
+  .wpc .tip{ position: absolute; top: calc(100% + 4px); max-width: 280px; padding: 7px 9px; font-size: 12px; line-height: 1.4; color: var(--text-2);
+    background: var(--surface-2); border: 1px solid var(--hair); border-radius: 8px; box-shadow: var(--shadow); pointer-events: none; z-index: 3; }
+  .wpc .tip b{ display: block; color: var(--text); margin-bottom: 2px; }
+
+  /* scoring summary */
+  ol.spl{ list-style: none; margin: 0; padding: 0; }
+  .spl li{ display: grid; grid-template-columns: 24px minmax(0, 1fr) auto; gap: 10px; padding: 8px 0; border-top: 1px solid var(--hair); font-size: 13px; }
+  .spl li:first-child{ border-top: 0; }
+  .spl img{ width: 24px; height: 24px; object-fit: contain; }
+  .spl small{ display: block; color: var(--text-3); font-size: 11.5px; }
+  .spl-s{ font-weight: 700; }
+
+  /* team stats + box score */
+  .tsh{ display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; color: var(--text-3); padding-bottom: 2px; }
+  .tsr{ display: grid; grid-template-columns: 70px minmax(0, 1fr) 70px; align-items: center; gap: 8px; padding: 6px 0; font-size: 13.5px; border-top: 1px solid var(--hair); }
+  .tsr .r{ text-align: right; }
+  .tsr .lbl{ text-align: center; color: var(--text-2); font-size: 12px; }
+  .tsr .bars{ display: flex; gap: 2px; height: 4px; margin-top: 4px; }
+  .tsr .bars i{ display: block; height: 100%; border-radius: 2px; }
+  .bx{ overflow-x: auto; }
+  table.bt{ width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  .bt th{ color: var(--text-3); font-weight: 600; text-align: right; padding: 4px 6px; white-space: nowrap; }
+  .bt td{ text-align: right; padding: 5px 6px; font-variant-numeric: tabular-nums; white-space: nowrap; border-top: 1px solid var(--hair); }
+  .bt th:first-child, .bt td:first-child{ text-align: left; white-space: normal; min-width: 130px; font-weight: 600; }
+
   @media (prefers-reduced-motion: reduce){ *{ animation: none !important; transition: none !important; } }
 </style>
 </head>
@@ -187,11 +325,14 @@
   </div>
 </header>
 <main class="wrap">
-  <div id="boot" class="boot">Loading this week’s games…</div>
-  <section class="sec live" id="sec-live" hidden><h2>Live <span class="n"></span></h2><div class="grid"></div></section>
-  <section class="sec" id="sec-pre" hidden><h2>Upcoming <span class="n"></span></h2><div class="grid"></div></section>
-  <section class="sec" id="sec-post" hidden><h2>Final <span class="n"></span></h2><div class="grid"></div></section>
-  <p class="bye" id="bye" hidden></p>
+  <div id="board">
+    <div id="boot" class="boot">Loading this week’s games…</div>
+    <section class="sec live" id="sec-live" hidden><h2>Live <span class="n"></span></h2><div class="grid"></div></section>
+    <section class="sec" id="sec-pre" hidden><h2>Upcoming <span class="n"></span></h2><div class="grid"></div></section>
+    <section class="sec" id="sec-post" hidden><h2>Final <span class="n"></span></h2><div class="grid"></div></section>
+    <p class="bye" id="bye" hidden></p>
+  </div>
+  <section id="game" class="game" hidden aria-live="off"></section>
   <p class="foot">Scores and game data from ESPN, refreshed about every 10 seconds while games are live. Not affiliated with the NFL, ESPN or Sleeper.</p>
 </main>
 <script>
@@ -356,11 +497,8 @@
   }
 
   function quartersHTML(T, id){
-    const n = Math.max((T.a.linescores || []).length, (T.h.linescores || []).length);
-    if(!n) return '';
-    const head = '<tr><th></th>' + Array.from({ length: n }, function(_, i){ return '<th>' + periodName(i + 1) + '</th>'; }).join('') + '<th>T</th></tr>';
-    const row = function(x){ return '<tr><td>' + escapeHTML(x.team.abbreviation) + '</td>' + Array.from({ length: n }, function(_, i){ const q = (x.linescores || [])[i]; return '<td>' + escapeHTML(q ? q.displayValue : '') + '</td>'; }).join('') + '<td>' + escapeHTML(x.score) + '</td></tr>'; };
-    return '<details class="q" data-q="' + escapeHTML(id) + '"' + (st.open.has(id) ? ' open' : '') + '><summary>By quarter</summary><table class="qt">' + head + row(T.a) + row(T.h) + '</table></details>';
+    const tbl = quarterTableHTML(T);
+    return tbl ? '<details class="q" data-q="' + escapeHTML(id) + '"' + (st.open.has(id) ? ' open' : '') + '><summary>By quarter</summary>' + tbl + '</details>' : '';
   }
 
   function preInfoHTML(e, T){
@@ -378,7 +516,8 @@
     const winner = state === 'post' ? (Number(T.a.score) > Number(T.h.score) ? 'a' : Number(T.h.score) > Number(T.a.score) ? 'h' : null) : null;
     const rz = state === 'in' && sit.isRedZone && sit.down > 0;
     const tv = tvText(T.c);
-    let h = '<article class="g ' + state + (rz ? ' rz' : '') + '" data-id="' + escapeHTML(id) + '">' +
+    let h = '<article class="g ' + state + (rz ? ' rz' : '') + '" data-id="' + escapeHTML(id) + '" tabindex="0" role="link" aria-label="' +
+      escapeHTML(T.a.team.abbreviation + ' at ' + T.h.team.abbreviation + ', ' + statusText(e) + ', open game') + '">' +
       '<div class="g-top"><span class="g-st">' + (state === 'in' ? '<i class="pulse"></i>' : '') + escapeHTML(statusText(e)) + '</span>' +
         (rz ? '<span class="rzc">RED ZONE</span>' : '') + (T.c.neutralSite ? '<span class="rzc" style="color:var(--text-3);background:var(--surface-2)">NEUTRAL</span>' : '') +
         '<span class="g-tv">' + escapeHTML(tv) + '</span></div>' +
@@ -386,17 +525,28 @@
         teamRow(T.a, { state: state, side: 'a', poss: poss && poss === T.a.team.id, to: sit.awayTimeouts, loser: winner === 'h' }) +
         teamRow(T.h, { state: state, side: 'h', poss: poss && poss === T.h.team.id, to: sit.homeTimeouts, loser: winner === 'a' }) +
       '</div>';
-    if(state === 'in'){
-      const field = fieldHTML(T, sit);
-      if(sit.down > 0 || field){
-        h += '<div class="sit">' + (sit.down > 0 && sit.downDistanceText ? '<div class="dd">' + escapeHTML(sit.downDistanceText) + '</div>' : '') + field + '</div>';
-      }
-      if(sit.lastPlay && sit.lastPlay.text) h += '<div class="last" data-play="' + escapeHTML(sit.lastPlay.id) + '"><b>Last play</b>' + escapeHTML(sit.lastPlay.text) + '</div>';
-      h += wpHTML(T, sit);
-    }
+    if(state === 'in') h += liveBlockHTML(T, sit);
     if(state === 'pre') h += preInfoHTML(e, T);
     else h += leadersHTML(T) + quartersHTML(T, id);
-    return h + '</article>';
+    return h + '<div class="g-more">' + (state === 'pre' ? 'Game details' : 'Play by play') + ' ›</div></article>';
+  }
+
+  // down & distance + field bar + last play + win probability (card and game view)
+  function liveBlockHTML(T, sit){
+    let h = '';
+    const field = fieldHTML(T, sit);
+    if(sit.down > 0 || field){
+      h += '<div class="sit">' + (sit.down > 0 && sit.downDistanceText ? '<div class="dd">' + escapeHTML(sit.downDistanceText) + '</div>' : '') + field + '</div>';
+    }
+    if(sit.lastPlay && sit.lastPlay.text) h += '<div class="last" data-play="' + escapeHTML(sit.lastPlay.id) + '"><b>Last play</b>' + escapeHTML(sit.lastPlay.text) + '</div>';
+    return h + wpHTML(T, sit);
+  }
+  function quarterTableHTML(T){
+    const n = Math.max((T.a.linescores || []).length, (T.h.linescores || []).length);
+    if(!n) return '';
+    const head = '<tr><th></th>' + Array.from({ length: n }, function(_, i){ return '<th>' + periodName(i + 1) + '</th>'; }).join('') + '<th>T</th></tr>';
+    const row = function(x){ return '<tr><td>' + escapeHTML(x.team.abbreviation) + '</td>' + Array.from({ length: n }, function(_, i){ const q = (x.linescores || [])[i]; return '<td>' + escapeHTML(q ? q.displayValue : '') + '</td>'; }).join('') + '<td>' + escapeHTML(x.score) + '</td></tr>'; };
+    return '<table class="qt">' + head + row(T.a) + row(T.h) + '</table>';
   }
 
   // ---------- render ----------
@@ -444,6 +594,7 @@
     document.getElementById('wk-label').textContent = 'Week ' + (st.week || '–');
     document.querySelector('[data-wk="-1"]').disabled = !(st.week > 1);
     document.querySelector('[data-wk="1"]').disabled = !(st.week < MAX_WEEK);
+    if(st.g) renderGame();   // the open game's hero follows the board's (same) poll
   }
 
   function ago(ms){ const s = Math.round(ms / 1000); return s < 5 ? 'just now' : s < 60 ? s + 's ago' : Math.round(s / 60) + 'm ago'; }
@@ -457,26 +608,416 @@
     else t = (live ? 'Live · ' : '') + 'updated ' + ago(Date.now() - st.fetchedAt);
     u.querySelector('span').textContent = t;
   }
-  setInterval(renderStatus, 1000);
+  setInterval(function(){ renderStatus(); renderGameStatus(); }, 1000);
+
+  // ============ game view (#g=<event id>) ============
+  // ESPN summary: ~430 KB, so it is fetched only for the open game (10 s while live). The hero uses the board's
+  // event (same scoreboard poll) when this week's board has it, otherwise one built from the summary's header.
+  const SUMMARY = 'https://site.api.espn.com/apis/site/v2/sports/football/nfl/summary?event=';
+  const META_PLAY = /timeout|end period|end of half|end of game|end quarter|two-minute|coin toss/i;
+  const YARD_PLAY = /rush|pass reception|passing touchdown|rushing touchdown|sack/i;
+  const KEY_PLAY = /interception|fumble|safety|blocked|missed/i;
+  const TEAM_STATS = [['totalYards', 'Total yards'], ['netPassingYards', 'Passing'], ['rushingYards', 'Rushing'], ['firstDowns', '1st downs'],
+    ['thirdDownEff', '3rd down'], ['fourthDownEff', '4th down'], ['redZoneAttempts', 'Red zone'], ['turnovers', 'Turnovers'],
+    ['sacksYardsLost', 'Sacked'], ['totalPenaltiesYards', 'Penalties'], ['possessionTime', 'Possession']];
+  const BOX_CATS = [['passing', 'Passing'], ['rushing', 'Rushing'], ['receiving', 'Receiving'], ['defensive', 'Defense'], ['interceptions', 'Interceptions'],
+    ['kicking', 'Kicking'], ['punting', 'Punting'], ['kickReturns', 'Kick returns'], ['puntReturns', 'Punt returns'], ['fumbles', 'Fumbles']];
+
+  function boardEvent(id){ return events().find(function(e){ return String(e.id) === id; }) || null; }
+  function drivesOf(S){
+    const d = (S && S.drives) || {}, list = (d.previous || []).slice();
+    if(d.current && !list.some(function(x){ return x.id === d.current.id; })) list.push(d.current);
+    list.forEach(function(x){ (x.plays || []).sort(function(p, q){ return Number(p.sequenceNumber) - Number(q.sequenceNumber); }); });
+    return list;
+  }
+  function allPlays(S){ return drivesOf(S).reduce(function(a, d){ return a.concat(d.plays || []); }, []); }
+  function lastWp(S){ const w = (S && S.winprobability) || []; return w.length ? w[w.length - 1] : null; }
+  function clockSecs(t){ const m = /^(\d+):(\d\d)$/.exec(String(t || '')); return m ? Number(m[1]) * 60 + Number(m[2]) : 0; }
+  function elapsed(p){
+    const per = (p.period && p.period.number) || 1, c = clockSecs(p.clock && p.clock.displayValue);
+    return per <= 4 ? (per - 1) * 900 + (900 - c) : 3600 + (per - 5) * 600 + (600 - c);
+  }
+  function playClock(p){ return periodName((p.period && p.period.number) || 1) + ' ' + escapeHTML((p.clock && p.clock.displayValue) || ''); }
+
+  // A scoreboard-shaped event from the summary, so the card helpers work for any game (deep links, other weeks).
+  function eventFromSummary(S){
+    const c = S.header.competitions[0];
+    const comps = (c.competitors || []).map(function(x){
+      const t = x.team || {}, lg = t.logos || [];
+      return { homeAway: x.homeAway, score: x.score, linescores: x.linescores,
+        records: (x.record || []).map(function(r){ return { type: r.type, summary: r.summary || r.displayValue }; }),
+        team: { id: t.id, abbreviation: t.abbreviation, shortDisplayName: t.name || t.nickname, color: t.color,
+          logo: lg[0] && lg[0].href, logoDark: (lg[1] && lg[1].href) || (lg[0] && lg[0].href) },
+        _poss: x.possession, _to: typeof x.timeoutsUsed === 'number' ? 3 - x.timeoutsUsed : undefined };
+    });
+    const ps = allPlays(S), lp = ps[ps.length - 1], away = comps.find(function(x){ return x.homeAway === 'away'; }) || {}, home = comps.find(function(x){ return x.homeAway === 'home'; }) || {};
+    let sit = {};
+    if(c.status.type.state === 'in' && lp){
+      const e = lp.end || {}, poss = comps.find(function(x){ return x._poss; });
+      sit = { down: e.down, distance: e.distance, yardLine: e.yardLine, downDistanceText: e.downDistanceText,
+        isRedZone: e.yardsToEndzone > 0 && e.yardsToEndzone <= 20, possession: poss ? poss.team.id : (e.team && e.team.id),
+        awayTimeouts: away._to, homeTimeouts: home._to,
+        lastPlay: { id: lp.id, text: lp.text, type: lp.type, probability: lastWp(S) } };
+    }
+    return { id: S.header.id, date: c.date, status: c.status, weather: S.gameInfo && S.gameInfo.weather,
+      competitions: [{ competitors: comps, situation: sit, neutralSite: c.neutralSite, venue: S.gameInfo && S.gameInfo.venue, broadcasts: [], leaders: [] }] };
+  }
+
+  function openGame(id){
+    if(st.g && st.g.id === id) return;
+    if(st.g) clearTimeout(st.g.timer); else st.boardY = window.scrollY;
+    st.g = { id: id, S: null, fetchedAt: 0, err: null, timer: null, busy: false, seen: new Set(), newAt: {}, primed: false,
+      filter: 'all', drv: new Map(), html: {}, box: 'a', tab: st.gTab || 'plays' };
+    document.getElementById('board').hidden = true;
+    const g = document.getElementById('game');
+    g.innerHTML =
+      '<div class="gv-bar"><button type="button" class="back" data-back>‹ All games</button><span class="gv-upd num" id="gv-upd"></span></div>' +
+      '<div class="gv-hero" id="gv-hero"><div class="boot">Loading game…</div></div>' +
+      '<div class="gv-tabs" role="tablist" aria-label="Game sections">' +
+        [['plays', 'Plays'], ['scoring', 'Scoring'], ['stats', 'Stats']].map(function(t){ return '<button type="button" role="tab" data-tab="' + t[0] + '">' + t[1] + '</button>'; }).join('') + '</div>' +
+      '<div class="gv-cols">' +
+        '<div class="panel" data-panel="plays"><div class="ph"><h3>Play by play</h3><div class="chips" role="group" aria-label="Which plays">' +
+          '<button type="button" class="chip" data-filter="all">All plays</button><button type="button" class="chip" data-filter="key">Key plays</button></div></div>' +
+          '<div id="gv-feed"></div></div>' +
+        '<div class="gv-side"><div class="panel" data-panel="scoring" id="gv-scoring"></div><div class="panel" data-panel="stats" id="gv-stats"></div></div>' +
+      '</div>';
+    g.hidden = false;
+    setGameTab(st.g.tab);
+    window.scrollTo(0, 0);
+    renderGame();
+    loadGame();
+  }
+  function closeGame(){
+    if(!st.g) return;
+    clearTimeout(st.g.timer); st.g = null; st.fromBoard = false;
+    document.title = 'sleepa live · every NFL game, live';
+    const g = document.getElementById('game'); g.hidden = true; g.innerHTML = '';
+    document.getElementById('board').hidden = false;
+    window.scrollTo(0, st.boardY || 0);
+  }
+  function route(){
+    const m = /^#g=(\d{1,15})$/.exec(location.hash);
+    if(m) openGame(m[1]); else closeGame();
+  }
+  window.addEventListener('hashchange', route);
+
+  async function loadGame(){
+    const G = st.g;
+    if(!G || G.busy) return;
+    G.busy = true;
+    try{
+      const r = await fetch(SUMMARY + encodeURIComponent(G.id), { cache: 'no-store' });
+      if(!r.ok) throw new Error('ESPN ' + r.status);
+      const S = await r.json();
+      if(!S.header || !S.header.competitions) throw new Error('No game data');
+      G.S = S; G.fetchedAt = Date.now(); G.err = null;
+      if(st.g === G) renderGame();
+    }catch(e){
+      console.warn('Game unavailable', e);
+      G.err = e;
+      if(!G.S && st.g === G) document.getElementById('gv-hero').innerHTML = '<div class="boot">Couldn’t load this game. Retrying…</div>';
+    }finally{
+      G.busy = false;
+      if(st.g === G){ renderGameStatus(); scheduleGame(); }
+    }
+  }
+  function gameState(){ const S = st.g && st.g.S; return S ? S.header.competitions[0].status.type.state : null; }
+  function scheduleGame(){
+    const G = st.g; if(!G) return;
+    clearTimeout(G.timer);
+    if(document.hidden) return;
+    const s = gameState();
+    let d = 30000;
+    if(G.err) d = 15000;
+    else if(s === 'in') d = 10000;
+    else if(s === 'post') d = 0;
+    else if(s === 'pre'){ const k = new Date(G.S.header.competitions[0].date).getTime() - Date.now(); d = k < 15 * 60000 ? 30000 : 120000; }
+    if(d) G.timer = setTimeout(loadGame, d);
+  }
+  function renderGameStatus(){
+    const G = st.g, el = G && document.getElementById('gv-upd');
+    if(!el) return;
+    const s = gameState();
+    el.className = 'gv-upd num' + (G.err ? ' err' : '');
+    el.textContent = G.err ? 'Couldn’t reach ESPN · retrying' : !G.fetchedAt ? 'Loading…' :
+      s === 'in' ? 'Live · plays updated ' + ago(Date.now() - G.fetchedAt) : s === 'post' ? 'Final' : 'Not started';
+  }
+  function setGameTab(t){
+    if(!st.g) return;
+    st.g.tab = st.gTab = t;
+    const g = document.getElementById('game');
+    g.className = 'game tab-' + t;
+    g.querySelectorAll('[data-tab]').forEach(function(b){ b.setAttribute('aria-selected', String(b.getAttribute('data-tab') === t)); });
+  }
+  function setPart(id, html){
+    const G = st.g, el = document.getElementById(id);
+    if(!el || G.html[id] === html) return;
+    el.innerHTML = html; G.html[id] = html;
+  }
+
+  function renderGame(){
+    const G = st.g; if(!G) return;
+    const S = G.S, ev = boardEvent(G.id) || (S && eventFromSummary(S));
+    if(!ev){ renderGameStatus(); return; }
+    const T = teamsOf(ev);
+    document.title = T.a.team.abbreviation + ' ' + (ev.status.type.state === 'pre' ? '@' : T.a.score + '–' + T.h.score) + ' ' + T.h.team.abbreviation + ' · sleepa live';
+    setPart('gv-hero', heroHTML(ev, T));
+    document.querySelectorAll('#game [data-filter]').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-filter') === G.filter); });
+    if(!S){ renderGameStatus(); return; }
+    setPart('gv-feed', feedHTML(S, T, ev.status.type.state));
+    setPart('gv-scoring', '<h3>Win probability</h3>' + wpChartHTML(S, T) + '<h3 class="mt">Scoring</h3>' + scoringHTML(S, T));
+    setPart('gv-stats', teamStatsHTML(S, T) + boxHTML(S, T));
+    renderGameStatus();
+  }
+
+  function heroHTML(e, T){
+    const state = e.status.type.state, sit = T.c.situation || {};
+    const poss = state === 'in' ? sit.possession : null;
+    const winner = state === 'post' ? (Number(T.a.score) > Number(T.h.score) ? 'a' : Number(T.h.score) > Number(T.a.score) ? 'h' : null) : null;
+    const side = function(x, s, to){
+      const t = x.team || {}, light = safeImg(t.logo), dark = safeImg(t.logoDark) || light;
+      const tos = state === 'in' && typeof to === 'number' && to >= 0 ? '<span class="tos" title="' + to + ' timeouts left" aria-label="' + to + ' timeouts left">' + [0, 1, 2].map(function(i){ return '<i' + (i < to ? '' : ' class="u"') + '></i>'; }).join('') + '</span>' : '';
+      return '<div class="gh-tm ' + s + '">' +
+        (light ? '<img class="lg lg-l" src="' + escapeHTML(light) + '" alt=""><img class="lg lg-d" src="' + escapeHTML(dark) + '" alt="">' : '') +
+        '<div><b>' + escapeHTML(t.abbreviation) + (poss && poss === t.id ? '<i class="poss" title="Has the ball" aria-label="has the ball"></i>' : '') + '</b>' +
+        '<small>' + escapeHTML(t.shortDisplayName || '') + (record(x) ? ' · ' + escapeHTML(record(x)) : '') + '</small>' + tos + '</div></div>';
+    };
+    const sc = function(x, s){ return '<div class="gh-sc num' + (winner && winner !== s ? ' l' : '') + '">' + (state === 'pre' ? '' : escapeHTML(x.score)) + '</div>'; };
+    const tv = tvText(T.c);
+    let h = '<div class="gh ' + state + '">' + side(T.a, 'a', sit.awayTimeouts) + sc(T.a, 'a') +
+      '<div class="gh-mid"><span class="g-st">' + (state === 'in' ? '<i class="pulse"></i>' : '') + escapeHTML(statusText(e)) + '</span>' +
+        (tv ? '<small>' + escapeHTML(tv) + '</small>' : '') + '</div>' +
+      sc(T.h, 'h') + side(T.h, 'h', sit.homeTimeouts) + '</div>';
+    if(state === 'in') h += liveBlockHTML(T, sit);
+    if(state === 'pre') h += preInfoHTML(e, T);
+    else h += quarterTableHTML(T);
+    return h;
+  }
+
+  function resultChip(d, live){
+    const r = String(d.shortDisplayResult || d.displayResult || d.result || '').toUpperCase();
+    if(!r) return live ? '<span class="res on"><i class="pulse"></i>On field</span>' : '';
+    const cls = /TD|FG$|^FG/.test(r) && !/MISSED|BLOCKED/.test(r) ? 'good' : /INT|FUMBLE|SAFETY/.test(r) ? 'bad' : /DOWNS|MISSED|BLOCKED/.test(r) ? 'warn' : '';
+    return '<span class="res ' + cls + '">' + escapeHTML(r) + '</span>';
+  }
+  function playHTML(p, o){
+    const G = st.g, type = (p.type && p.type.text) || '', meta = META_PLAY.test(type);
+    const isNew = G.newAt[p.id] && Date.now() - G.newAt[p.id] < 4000;
+    const yds = !meta && YARD_PLAY.test(type) && !/kickoff/i.test(type) && typeof p.statYardage === 'number' ? p.statYardage : null;
+    const cls = ['pl'];
+    if(meta) cls.push('meta');
+    if(p.scoringPlay) cls.push('score');
+    if(p.isTurnover) cls.push('to');
+    if(isNew) cls.push('new');
+    const tags = [];
+    if(p.scoringPlay) tags.push('<span class="tag good">' + escapeHTML(type) + '</span>');
+    else if(p.isTurnover) tags.push('<span class="tag bad">Turnover</span>');
+    else if(p.isPenalty || /penalty/i.test(type)) tags.push('<span class="tag warn">Penalty</span>');
+    const dd = !meta && p.start && p.start.down > 0 && p.start.downDistanceText ? '<div class="pl-dd">' + escapeHTML(p.start.downDistanceText) + '</div>' : '';
+    return '<li class="' + cls.join(' ') + '"><div class="pl-t">' + playClock(p) + (o.team ? '<b>' + escapeHTML(o.team) + '</b>' : '') + '</div>' +
+      '<div class="pl-b">' + dd + '<p>' + tags.join('') + escapeHTML(p.text || type) + '</p>' +
+        (p.scoringPlay ? '<span class="sc-after num">' + escapeHTML(o.A) + ' ' + escapeHTML(p.awayScore) + ' – ' + escapeHTML(p.homeScore) + ' ' + escapeHTML(o.H) + '</span>' : '') + '</div>' +
+      (yds !== null ? '<div class="pl-y num' + (yds >= 20 ? ' big' : yds < 0 ? ' neg' : '') + '">' + (yds > 0 ? '+' : '') + yds + '</div>' : '<div></div>') + '</li>';
+  }
+  function feedHTML(S, T, state){
+    const G = st.g, drives = drivesOf(S), A = T.a.team.abbreviation, H = T.h.team.abbreviation;
+    // plays first seen after the first render are "new" for 4 s (slide in + highlight), whichever poll redraws next
+    allPlays(S).forEach(function(p){ if(!G.seen.has(p.id)){ G.seen.add(p.id); if(G.primed) G.newAt[p.id] = Date.now(); } });
+    G.primed = true;
+    let out;
+    if(!drives.length) out = '<p class="empty-s">' + (state === 'pre' ? 'Plays show up here once the game starts.' : 'No plays yet.') + '</p>';
+    else if(G.filter === 'key'){
+      const rows = [];
+      drives.slice().reverse().forEach(function(d){
+        const ab = d.team && d.team.abbreviation;
+        (d.plays || []).slice().reverse().forEach(function(p){
+          const type = (p.type && p.type.text) || '', big = YARD_PLAY.test(type) && Math.abs(p.statYardage) >= 20;
+          if(p.scoringPlay || p.isTurnover || big || KEY_PLAY.test(type)) rows.push(playHTML(p, { A: A, H: H, team: ab }));
+        });
+      });
+      out = rows.length ? '<ol class="pls">' + rows.join('') + '</ol>' : '<p class="empty-s">No scores, turnovers or 20+ yard plays yet.</p>';
+    }else{
+      out = drives.slice().reverse().map(function(d, i){
+        const id = String(d.id), live = i === 0 && state === 'in';
+        const open = G.drv.has(id) ? G.drv.get(id) : i < 2;
+        const lg = d.team && d.team.logos && d.team.logos[0] && safeImg(d.team.logos[0].href);
+        const s = d.start || {}, sub = [d.description, s.text ? 'from ' + s.text : '', s.period ? periodName(s.period.number) + ' ' + ((s.clock && s.clock.displayValue) || '') : ''].filter(Boolean).join(' · ');
+        return '<details class="dv" data-dv="' + escapeHTML(id) + '"' + (open ? ' open' : '') + '><summary>' +
+          (lg ? '<img src="' + escapeHTML(lg) + '" alt="" loading="lazy">' : '<span></span>') +
+          '<div class="dv-t"><b>' + escapeHTML((d.team && d.team.abbreviation) || '') + '</b><small>' + escapeHTML(sub) + '</small></div>' +
+          resultChip(d, live) + '</summary>' +
+          '<ol class="pls">' + (d.plays || []).slice().reverse().map(function(p){ return playHTML(p, { A: A, H: H }); }).join('') + '</ol></details>';
+      }).join('');
+    }
+    return out;
+  }
+
+  function wpChartHTML(S, T){
+    const wp = S.winprobability || [];
+    const at = {}; allPlays(S).forEach(function(p){ at[p.id] = p; });
+    let tMax = 0;
+    const pts = [];
+    wp.forEach(function(w){
+      const p = at[w.playId]; if(!p || typeof w.homeWinPercentage !== 'number') return;
+      tMax = Math.max(tMax, elapsed(p));
+      pts.push({ t: tMax, h: w.homeWinPercentage, p: p });
+    });
+    st.g.wpPts = null;
+    if(pts.length < 2) return '<p class="empty-s">Shows up once the game starts.</p>';
+    const total = Math.max(3600, tMax > 3600 ? 3600 + Math.ceil((tMax - 3600) / 600) * 600 : 3600);
+    const W = 600, Hh = 170, X = function(t){ return (t / total * W).toFixed(1); }, Y = function(h){ return ((1 - h) * Hh).toFixed(1); };
+    const line = pts.map(function(q, i){ return (i ? 'L' : 'M') + X(q.t) + ' ' + Y(q.h); }).join('');
+    const area = 'M0 ' + Y(0.5) + ' L0 ' + Y(pts[0].h) + line.replace(/^M/, 'L') + ' L' + X(pts[pts.length - 1].t) + ' ' + Y(0.5) + 'Z';
+    const ac = safeColor(T.a.team.color, '#888'), hc = safeColor(T.h.team.color, '#444');
+    // labels are HTML (not SVG text) so they stay readable when the chart shrinks on phones
+    let grid = '', labels = '';
+    const lab = function(t, s){ return '<span style="left:' + (t / total * 100).toFixed(2) + '%">' + s + '</span>'; };
+    for(let q = 1; q * 900 <= Math.min(total, 3600); q++){
+      if(q * 900 < total) grid += '<line x1="' + X(q * 900) + '" x2="' + X(q * 900) + '" y1="0" y2="' + Hh + '" class="gl"/>';
+      labels += lab(q * 900 - 450, 'Q' + q);
+    }
+    if(total > 3600) labels += lab(3600 + (total - 3600) / 2, 'OT');
+    const dots = pts.filter(function(q){ return q.p.scoringPlay; }).map(function(q){ return '<circle cx="' + X(q.t) + '" cy="' + Y(q.h) + '" r="3.5" class="sd"/>'; }).join('');
+    const last = pts[pts.length - 1], hp = Math.round(last.h * 100);
+    st.g.wpPts = pts.map(function(q){ return { x: q.t / total, h: q.h, p: q.p }; });
+    return '<div class="wpc" id="wpc"><div class="wpc-now num"><span style="color:' + (hp >= 50 ? hc : ac) + '">●</span> ' +
+        escapeHTML(hp >= 50 ? T.h.team.abbreviation : T.a.team.abbreviation) + ' ' + Math.max(hp, 100 - hp) + '% to win</div>' +
+      '<div class="wpc-plot"><span class="wpc-tm t">' + escapeHTML(T.h.team.abbreviation) + '</span><span class="wpc-tm b">' + escapeHTML(T.a.team.abbreviation) + '</span>' +
+      '<svg viewBox="0 -4 ' + W + ' ' + (Hh + 8) + '" role="img" aria-label="Win probability over the game">' +
+        '<defs><clipPath id="wpc-t"><rect x="0" y="-4" width="' + W + '" height="' + (Hh / 2 + 4) + '"/></clipPath><clipPath id="wpc-b"><rect x="0" y="' + Hh / 2 + '" width="' + W + '" height="' + (Hh / 2) + '"/></clipPath></defs>' +
+        grid + '<line x1="0" x2="' + W + '" y1="' + Y(0.5) + '" y2="' + Y(0.5) + '" class="gl mid"/>' +
+        '<path d="' + area + '" fill="' + hc + '" fill-opacity=".28" clip-path="url(#wpc-t)"/>' +
+        '<path d="' + area + '" fill="' + ac + '" fill-opacity=".28" clip-path="url(#wpc-b)"/>' +
+        '<path d="' + line + '" class="wl"/>' + dots +
+        '<circle cx="' + X(last.t) + '" cy="' + Y(last.h) + '" r="4.5" class="ld-dot"/>' +
+        '<line class="cur" id="wpc-cur" x1="0" x2="0" y1="0" y2="' + Hh + '" visibility="hidden"/>' +
+      '</svg></div><div class="wpc-q">' + labels + '</div><div class="tip" id="wpc-tip" hidden></div></div>';
+  }
+  function wpHover(ev){
+    const box = document.getElementById('wpc'), G = st.g;
+    if(!box || !G || !G.wpPts) return;
+    const svg = box.querySelector('svg'), r = svg.getBoundingClientRect(), tip = document.getElementById('wpc-tip'), cur = document.getElementById('wpc-cur');
+    const fx = (ev.clientX - r.left) / r.width;
+    if(fx < 0 || fx > 1){ tip.hidden = true; cur.setAttribute('visibility', 'hidden'); return; }
+    let best = G.wpPts[0];
+    G.wpPts.forEach(function(q){ if(Math.abs(q.x - fx) < Math.abs(best.x - fx)) best = q; });
+    const ev2 = boardEvent(G.id) || eventFromSummary(G.S), T = teamsOf(ev2), hp = Math.round(best.h * 100);
+    cur.setAttribute('x1', (best.x * 600).toFixed(1)); cur.setAttribute('x2', (best.x * 600).toFixed(1)); cur.setAttribute('visibility', 'visible');
+    tip.innerHTML = '<b>' + playClock(best.p) + ' · ' + escapeHTML(hp >= 50 ? T.h.team.abbreviation : T.a.team.abbreviation) + ' ' + Math.max(hp, 100 - hp) + '%</b>' + escapeHTML(best.p.text || '');
+    tip.hidden = false;
+    const left = Math.max(0, Math.min(r.width - tip.offsetWidth, best.x * r.width - tip.offsetWidth / 2));
+    tip.style.left = left + 'px';
+  }
+
+  function scoringHTML(S, T){
+    const sp = S.scoringPlays || [];
+    if(!sp.length) return '<p class="empty-s">No scoring yet.</p>';
+    let per = 0, out = '';
+    sp.forEach(function(s){
+      const n = (s.period && s.period.number) || 1;
+      if(n !== per){ out += (per ? '</ol>' : '') + '<h4>' + (n <= 4 ? ['1st', '2nd', '3rd', '4th'][n - 1] + ' quarter' : 'Overtime') + '</h4><ol class="spl">'; per = n; }
+      const t = s.team || {}, lg = safeImg(t.logo);
+      out += '<li>' + (lg ? '<img src="' + escapeHTML(lg) + '" alt="" loading="lazy">' : '<span></span>') +
+        '<div><b>' + escapeHTML(t.abbreviation || '') + ' ' + escapeHTML((s.type && s.type.abbreviation) || '') + '</b> ' + escapeHTML(s.text || '') +
+        '<small>' + escapeHTML((s.clock && s.clock.displayValue) || '') + '</small></div>' +
+        '<span class="num spl-s">' + escapeHTML(s.awayScore) + '–' + escapeHTML(s.homeScore) + '</span></li>';
+    });
+    return out + '</ol>';
+  }
+
+  function statNum(k, v){
+    v = String(v == null ? '' : v);
+    if(k === 'possessionTime') return clockSecs(v);
+    const m = /^(\d+)-/.exec(v); if(m) return Number(m[1]);
+    return parseFloat(v) || 0;
+  }
+  function teamStatsHTML(S, T){
+    const bt = (S.boxscore && S.boxscore.teams) || [];
+    const find = function(x){ return bt.find(function(b){ return b.team && b.team.id === x.team.id; }); };
+    const a = find(T.a), h = find(T.h);
+    if(!a || !h) return '<h3>Team stats</h3><p class="empty-s">Shows up once the game starts.</p>';
+    const get = function(b, k){ const s = (b.statistics || []).find(function(x){ return x.name === k; }); return s ? s.displayValue : null; };
+    const ac = safeColor(T.a.team.color, '#888'), hc = safeColor(T.h.team.color, '#444');
+    const rows = TEAM_STATS.map(function(k){
+      const va = get(a, k[0]), vh = get(h, k[0]);
+      if(va === null && vh === null) return '';
+      const na = statNum(k[0], va), nh = statNum(k[0], vh), sum = na + nh, pa = sum > 0 ? na / sum * 100 : 50;
+      return '<div class="tsr"><b class="num">' + escapeHTML(va) + '</b><div class="lbl">' + k[1] +
+        '<div class="bars"><i style="width:' + pa.toFixed(1) + '%;background:' + ac + '"></i><i style="width:' + (100 - pa).toFixed(1) + '%;background:' + hc + '"></i></div></div>' +
+        '<b class="num r">' + escapeHTML(vh) + '</b></div>';
+    }).join('');
+    return '<h3>Team stats</h3><div class="tsh"><span>' + escapeHTML(T.a.team.abbreviation) + '</span><span>' + escapeHTML(T.h.team.abbreviation) + '</span></div>' + rows;
+  }
+  function boxHTML(S, T){
+    const G = st.g, bp = (S.boxscore && S.boxscore.players) || [];
+    if(!bp.length) return '';
+    const x = G.box === 'h' ? T.h : T.a, team = bp.find(function(b){ return b.team && b.team.id === x.team.id; });
+    const sw = '<div class="chips" role="group" aria-label="Team">' + [['a', T.a], ['h', T.h]].map(function(s){
+      return '<button type="button" class="chip' + (G.box === s[0] ? ' on' : '') + '" data-box="' + s[0] + '">' + escapeHTML(s[1].team.abbreviation) + '</button>'; }).join('') + '</div>';
+    const cats = ((team && team.statistics) || []);
+    const tables = BOX_CATS.map(function(c){
+      const cat = cats.find(function(z){ return z.name === c[0]; });
+      if(!cat || !(cat.athletes || []).length) return '';
+      return '<h4>' + c[1] + '</h4><div class="bx"><table class="bt"><thead><tr><th>Player</th>' + (cat.labels || []).map(function(l){ return '<th>' + escapeHTML(l) + '</th>'; }).join('') + '</tr></thead><tbody>' +
+        cat.athletes.map(function(r){ return '<tr><td>' + escapeHTML((r.athlete && r.athlete.displayName) || '') + '</td>' + (r.stats || []).map(function(v){ return '<td>' + escapeHTML(v) + '</td>'; }).join('') + '</tr>'; }).join('') +
+        '</tbody></table></div>';
+    }).join('');
+    return '<div class="ph mt"><h3>Box score</h3>' + sw + '</div>' + (tables || '<p class="empty-s">No player stats yet.</p>');
+  }
 
   // ---------- events ----------
   document.addEventListener('click', function(ev){
-    const b = ev.target.closest('[data-wk]');
-    if(!b || st.week === null) return;
-    const w = Math.max(1, Math.min(MAX_WEEK, st.week + Number(b.getAttribute('data-wk'))));
-    if(w === st.week) return;
-    st.week = w; st.nodes.clear();
-    document.getElementById('wk-label').textContent = 'Week ' + w;
-    clearTimeout(st.timer); load();
+    const t = ev.target;
+    const b = t.closest('[data-wk]');
+    if(b && st.week !== null){
+      const w = Math.max(1, Math.min(MAX_WEEK, st.week + Number(b.getAttribute('data-wk'))));
+      if(w === st.week) return;
+      if(st.g) location.hash = '';
+      st.week = w; st.nodes.clear();
+      document.getElementById('wk-label').textContent = 'Week ' + w;
+      clearTimeout(st.timer); load();
+      return;
+    }
+    if(t.closest('[data-back]')){
+      if(st.fromBoard) history.back(); else { history.replaceState(null, '', location.pathname + location.search); route(); }
+      return;
+    }
+    const tab = t.closest('[data-tab]'); if(tab){ setGameTab(tab.getAttribute('data-tab')); return; }
+    const f = t.closest('[data-filter]');
+    if(f && st.g){ st.g.filter = f.getAttribute('data-filter'); renderGame(); return; }
+    const bx = t.closest('[data-box]');
+    if(bx && st.g){ st.g.box = bx.getAttribute('data-box'); renderGame(); return; }
+    const card = t.closest('.g[data-id]');
+    if(card && !t.closest('details')){ st.fromBoard = true; location.hash = 'g=' + card.getAttribute('data-id'); }
   });
+  document.addEventListener('keydown', function(ev){
+    if(ev.key === 'Escape' && st.g){ document.querySelector('[data-back]').click(); return; }
+    const card = ev.target.closest && ev.target.closest('.g[data-id]');
+    if(card && (ev.key === 'Enter' || ev.key === ' ') && ev.target === card){ ev.preventDefault(); st.fromBoard = true; location.hash = 'g=' + card.getAttribute('data-id'); }
+  });
+  document.addEventListener('pointermove', function(ev){ if(st.g && ev.target.closest && ev.target.closest('#wpc')) wpHover(ev); });
+  document.addEventListener('pointerleave', function(ev){
+    if(ev.target && ev.target.id === 'wpc'){ const tip = document.getElementById('wpc-tip'), cur = document.getElementById('wpc-cur'); if(tip) tip.hidden = true; if(cur) cur.setAttribute('visibility', 'hidden'); }
+  }, true);
   document.addEventListener('toggle', function(ev){
     const d = ev.target;
-    if(!d.matches || !d.matches('details.q')) return;
-    const id = d.getAttribute('data-q');
-    if(d.open) st.open.add(id); else st.open.delete(id);
-    const n = st.nodes.get(id); if(n) n.html = null;   // re-render with the new open state next time
+    if(!d.matches) return;
+    if(d.matches('details.q')){
+      const id = d.getAttribute('data-q');
+      if(d.open) st.open.add(id); else st.open.delete(id);
+      const n = st.nodes.get(id); if(n) n.html = null;   // re-render with the new open state next time
+    }else if(d.matches('details.dv') && st.g){
+      st.g.drv.set(d.getAttribute('data-dv'), d.open);
+      st.g.html['gv-feed'] = null;
+    }
   }, true);
+  document.addEventListener('visibilitychange', function(){
+    if(!st.g) return;
+    if(document.hidden) clearTimeout(st.g.timer);
+    else if(Date.now() - st.g.fetchedAt > 8000) loadGame(); else scheduleGame();
+  });
 
+  route();
   load();
 })();
 </script>

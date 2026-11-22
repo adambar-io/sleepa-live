@@ -10,7 +10,15 @@ origins).
 1. **All-games board** (built Nov 22 2026). A card per game: score, clock, possession, timeouts, field-position bar
    with first-down line and down & distance, last play, ESPN win probability, pass / rush / receiving leaders,
    score by quarter. Live first, then upcoming, then final. Week switcher (only the current week polls).
-2. **Game view.** Drive-by-drive play feed, new plays sliding in, scoring summary, win-probability line, box score.
+2. **Game view** (built Nov 22 2026). Tap a card → `#g=<event id>` (deep-linkable; Back / Esc return to the board
+   at its scroll position). Hero = the board's event (same poll) or one built from the summary (`eventFromSummary`,
+   for deep links / other weeks). Play by play grouped by drive, newest first (newest two drives open; your
+   open / closed choice survives refreshes), with All / Key plays (scores, turnovers, 20+ yards, fumbles, blocks,
+   misses). Plays first seen after the first load slide in and highlight for 4 s (`newAt`). Side: win-probability
+   chart (ESPN series mapped to game time; hover / touch for the play), scoring summary by quarter, team stats with
+   bars, box score per team. Under 1000 px the panels become Plays / Scoring / Stats tabs.
+   - ESPN quirk: `drives.current` is also the last entry of `drives.previous` (deduped in `drivesOf`). A new drive
+     appears only after its first play, so right after a punt the newest drive can still be the punting team's.
 3. **Your players.** Sleeper username → leagues → my starters and each opponent's starters, marked on plays across
    all games, tagged by league.
 4. **Fantasy points per play** in each league's scoring, plus a "My plays" feed across games.
@@ -34,6 +42,9 @@ origins).
   See Sleepa's PROJECT_CONTEXT.md "Source" note and `wpcFetch` / `zPend` in Sleepa's index.html.
 
 ## Polling
+
+Game view (`scheduleGame`): summary every 10 s while live, 30 s / 2 min before kickoff, once for a final; paused
+while hidden. The board keeps polling underneath, and its renders also redraw the open game's hero.
 
 `nextDelay()`: 10 s while any game is live, 30 s when a kickoff is within 15 minutes, otherwise 2 minutes (capped
 to wake at the next kickoff). Paused while the tab is hidden; refetches on return. A failed fetch keeps the last
