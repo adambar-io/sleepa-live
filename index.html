@@ -335,7 +335,7 @@
   function wpHTML(T, sit){
     const p = sit && sit.lastPlay && sit.lastPlay.probability;
     if(!p || typeof p.homeWinPercentage !== 'number') return '';
-    const h = Math.round(p.homeWinPercentage * 1000) / 10, a = Math.round((100 - h) * 10) / 10;
+    const h = Math.max(0, Math.min(100, Math.round(p.homeWinPercentage * 100))), a = 100 - h;   // whole numbers that add to 100
     const ac = safeColor(T.a.team.color, '#888'), hc = safeColor(T.h.team.color, '#444');
     return '<div class="wp num" title="ESPN win probability">' +
       '<span>' + escapeHTML(T.a.team.abbreviation) + ' ' + a.toFixed(0) + '%</span>' +
